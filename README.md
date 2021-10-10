@@ -35,4 +35,4 @@ In the case where a request does not manage to find another most suitable reques
 
 ## Contact
 Jolene - [jolenechong7@gmail.com](mailto:jolenechong7@gmail.com) <br>
-Shi Qi - 
+Shi Qi - [pshiqi01@gmail.com](mailto:pshiqi01@gmail.com)
