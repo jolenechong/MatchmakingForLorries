@@ -48,15 +48,9 @@ def search(weight, location, destination, operator):
     all_lorries = Lorry.query.filter_by(status='waiting')
     adj_list = {}
     if all_requests:
-        all_warehouses = []
-        for war in Warehouse.query.all():
-            all_warehouses.append(war.__dict__)
-        nodes = [x['location'] for x in all_warehouses]
+        all_warehouses = Warehouse.query.all()
+        nodes = [x.location for x in all_warehouses]
         adj_list = {}
-        for w in all_warehouses:
-            edges = {w['north_south']: w['ns_weight'], w['east']: w['e_weight'], w['west']: w['w_weight'], w['north_south_extra']: w['ns_weight_extra']}
-            edges_final = {k: v for k, v in edges.items() if v is not None}
-            adj_list[w['location']] = edges_final
         request_warehouses = [x.warehouse_location for x in all_requests]
         for i in nodes:
             j = Warehouse.query.get(i)
@@ -66,14 +60,14 @@ def search(weight, location, destination, operator):
         distance = shortest_path(nodes, adj_list, location)
         path = find_path(distance[1], location, destination)
         keys = list(distance[0].keys())
-        sorted_warehouses = [x for x in keys if x not in path]
+        sorted_warehouses = [y for y in keys if y not in path]
         path.extend(sorted_warehouses)
         for p in path:
             if p in request_warehouses:
                 requests = Request.query.filter_by(warehouse_location=p, status='Finding match', end_location=destination).order_by(Request.closing_time)
                 for r in requests:
                     total = int(weight) + r.load_weight
-                    for lorry in [x for x in all_lorries if x.user_id==operator or x.user_id==r.user_id]:
+                    for lorry in [z for z in all_lorries if z.user_id==operator or z.user_id==r.user_id]:
                         if 0 <= lorry.total_load - total <= lorry.total_load*0.2:
                             return lorry.plate_number, r.id, r.user_id
     return None
