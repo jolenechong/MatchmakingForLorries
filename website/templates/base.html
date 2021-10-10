@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&display=swap');
+      </style>
+    <title>{% block title %}Home {% endblock %}</title>
+  </head>
+  <body>
+    <nav>
+      {% if user.is_authenticated %}
+      <div class="nav-container">
+        <a id="home" href="/"><span>Matchmaking for Lorries</span></a>
+        <a id="logout" href="/logout">Log Out</a>
+      <div style="float: right">
+        <i class="far fa-user"></i>
+        <a>{{user.email}}</a>
+      </div>
+      </div>
+      {% else %}
+      <a id="home" href="/"><span>Matchmaking for Lorries</span></a>
+      <a id="login" href="/login">Login</a>
+      <a id="sign-up" href="/sign-up">Sign Up</a>
+      {% endif %}
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true)%} {%if
+    messages%} {% for category,message in messages%} {% if category == 'error'
+    %}
+    <div class="alert" role="alert">
+      {{message}}
+      <span class="closebtn" onclick="this.parentElement.style.display='none';"
+        >&times;</span
+      >
+    </div>
+    {% else %}
+    <div class="alert-success" role="alert">
+      {{message}}
+      <span class="closebtn" onclick="this.parentElement.style.display='none';"
+        >&times;</span
+      >
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+    <div>{% block content %} {% endblock %}</div>
+
+    <script src="{{url_for('static', filename='index.js')}}"></script>
+  </body>
+</html>

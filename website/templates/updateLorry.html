@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}Update Lorry {% endblock %} {% block content
+%}
+
+<form method="POST" class="form">
+  <h1>Update Lorry Status</h1>
+  <p>When delivery starts, change status to "Busy". When delivery is completed, change status to "Waiting".</p>
+  <label for="status">Status</label>
+  <select id="status" name="status">
+    <option value="waiting">Waiting</option>
+    <option value="busy">Busy</option>
+    <option value="Delivered">Delivered</option>
+  </select>
+  <label for="plate_number">Plate Number</label>
+  <input
+    type="text"
+    placeholder="Enter your plate number"
+    name="plate_number"
+  /><br><br>
+  <button class="btn" type="submit">Update status</button>
+  {% if result == 'success' %}
+<p>Successfully updated status!</p>
+{% elif result=='error' %}
+<p>Please try again.</p>
+{% endif %}
+</form>
+
+
+
+{% endblock %}

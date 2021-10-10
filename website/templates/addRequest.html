@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% block title %}Add Request {% endblock %} {% block
+content %}
+<main>
+  <section id="request">
+    <h1>Add Request</h1>
+    <a id="backtodashboard" href="/">Back to Dashboard</a>
+    <form method="POST">
+      <label for="load_weight">Load Weight (kg)</label><br />
+      <input
+        type="number"
+        name="load_weight"
+        placeholder="Enter total weight of load in kg"
+        required
+      /><br />
+
+      <label for="from">From</label><br>
+      <input list="fromList" name="from" id="from" placeholder="Enter where load is sent from" required/><br>
+
+      <datalist id="fromList">
+        {% for i in warehouse %}
+        <option value="{{i.location}}"></option>
+        {% endfor %}
+      </datalist>
+
+      <label for="to">To</label><br>
+      <input list="toList" name="to" id="to" placeholder="Enter destination of load" required/><br>
+
+      <datalist id="toList">
+        {% for i in warehouse %}
+        <option value="{{i.location}}"></option>
+        {% endfor %}
+      </datalist>
+
+      <label for="closing_time">When does this have to be delivered by?</label
+      ><br />
+      <input type="datetime-local" name="closing_time" id='datefield' min='1899-01-01' max='2899-01-01T00:00' pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" required /><br /><br />
+      <button type="submit" class="btn">Submit Request</button>
+      <p class="subtitle">Submit request to get connected!</p>
+    </form>
+  </section>
+</main>
+
+<aside>
+  <a href='/'><i class="fas fa-chart-line"></i>Dashboard</a>
+  <a href='#'><i class="far fa-clipboard"></i>Report</a>
+  <a href='#'><i class="far fa-user"></i>Account</a>
+</aside>
+
+<script>
+var today = new Date();
+var dd = today.getUTCDate();
+var mm = today.getUTCMonth() + 1; //January is 0!
+var yyyy = today.getUTCFullYear();
+var hours = today.getUTCHours()
+var time = hours + ":" + today.getUTCMinutes();
+if (dd < 10) {
+  dd = '0' + dd
+}
+if (mm < 10) {
+  mm = '0' + mm
+}
+today = yyyy + '-' + mm + '-' + dd + "T"+ time;
+document.getElementById("datefield").setAttribute("min", today);
+</script>
+{% endblock %}

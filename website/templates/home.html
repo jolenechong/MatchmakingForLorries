@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% block title %}Home {% endblock %} {% block content
+%}
+<main>
+  <section id="stats">
+    <h1>Dashboard</h1>
+    <div class="addReq">
+      <span onclick="openNotification()"><i class="far fa-bell"></i></span>
+      <div id="notifications">
+        <p>Your Notifications</p>
+        {% for notif in user.notification %}
+          {% if notif.request_status == "Pending delivery" %}
+        <p>
+          <i class="fas fa-history"></i>
+          Status of {{notif.request_id}}: {{notif.request_status}}
+        </p>
+            {% elif notif.request_status == 'Delivered'%}
+          <p>
+            <i class="fas fa-check" style="color:green;"></i>
+            Status of {{notif.request_id}}: {{notif.request_status}}
+          </p>
+            {% else %}
+            <p>
+              <i class="fas fa-check" style="color:red;"></i>
+              Status of {{notif.request_id}}: {{notif.request_status}}
+            </p>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <a class="btn" href="/add-request">Add request</a>
+    </div>
+    <div class="card">
+      <i class="fas fa-ticket-alt display-icon"></i>
+      <p>Requests <span>500</span>Per Day</p>
+    </div>
+    <div class="card" style="background-color: #dbf6f6">
+      <i class="fas fa-archive display-icon"></i>
+      <p>Cargos <span>100%</span>Delivered On Time</p>
+    </div>
+    <div class="card" style="background-color: #f6dbdc">
+      <i class="fas fa-wave-square display-icon"></i>
+      <p>Total <span>45435</span>Matched Requests</p>
+    </div>
+  </section>
+  <section id="graphs"></section>
+  <section id="requestsHistory">
+    <h1>Request History</h1>
+
+    <div class="reqHistory" id='columnName'>
+      <div class="column">
+        <p>Identity Number</p>
+      </div>
+      <div class="column">
+        <p>Date of Request</p>
+      </div>
+      <div class="column">
+        <p>Closing Date</p>
+      </div>
+      <div class="column">
+        <p>Status</p>
+      </div>
+    </div>
+
+    {% for request in user.requests %}
+    <a href='/results/{{request.id}}' style="text-decoration: none;">
+    <div class="reqHistory">
+      <div class="column">
+        <p>{{request.id}}</p>
+      </div>
+
+      <div class="column">
+        <p>{{request.enter_date.strftime('%m/%d/%y %H:%M:%S')}}</p>
+      </div>
+      <div class="column">
+        <p>{{request.closing_time}}</p>
+      </div>
+      <div class="column">
+        {% if request.status == "Finding match" %}
+          <p style="color:red">{{request.status}}</p>
+        {% elif request.status == "Delivered" %}
+          <p style="color:green">{{request.status}}</p>
+        {% else %}
+        <p style="color:grey">{{request.status}}</p>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+    {% endfor%}
+  </section>
+</main>
+
+<aside>
+  <a href="/"><i class="fas fa-chart-line"></i>Dashboard</a>
+  <a href='/excel'><i class="far fa-clipboard"></i>Report</a>
+  <a href="#"><i class="far fa-user"></i>Account</a>
+</aside>
+{% endblock %}

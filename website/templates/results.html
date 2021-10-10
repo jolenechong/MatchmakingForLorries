@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block title %}Results of Request {% endblock %} {% block
+content %}
+<main style="overflow-x: auto">
+  <section id="results">
+    {% if error == 'error'%}
+    <h1>Waiting for a match...</h1>
+    <p>
+      We will notify you when there’s a match, check the status via dashboard.
+    </p>
+    <a id="backtodashboard" href="/">Back to Dashboard</a>
+    {% else %}
+    <h1>Results</h1>
+    <p>Your results based on your request.</p>
+    <a id="backtodashboard" href="/">Back to Dashboard</a>
+    <div class="resultMain">
+      <div class="row">
+        <div class="yourReq">
+          <h3>Your request</h3>
+          <p class="highlightId">ID: {{request.id}}</p>
+          <p><i class="far fa-envelope"></i> {{user.email}}</p>
+          <p><i class="fas fa-phone-alt"></i> {{user.phone_number}}+65 9384 3974</p>
+          <br />
+          <p>LOAD: {{request.load_weight}}</p>
+          <p>Warehouse ID: {{request.warehouse_location}}</p>
+        </div>
+        <div class="connectedReq">
+          <h3>Connected request</h3>
+          <p class="highlightId">ID: {{request2.id}}</p>
+          <p><i class="far fa-envelope"></i> {{user2.email}}</p>
+          <p><i class="fas fa-phone-alt"></i> {{user2.phone_number}}+65 9544 3374</p>
+          <br />
+          <p>LOAD: {{request2.load_weight}}</p>
+          <p>Warehouse ID: {{request2.warehouse_location}}</p>
+        </div>
+      </div>
+
+      <div>
+        <h3>Lorry</h3>
+        <p class="highlightId">Plate Number: <span class="highlight">{{lorry.plate_number}}</span></p>
+        <p>Warehouse ID: <span class="highlight">{{lorry_location.location}}</span></p>
+        <p>Operator ID: <span class="highlight">{{lorry.user_id}}</span></p>
+        <p>Total Load Capacity for Lorry: <span class="highlight">{{lorry.total_load}}</span></p>
+        <p>Destination ID: <span class="highlight">{{request.end_location}}</span></p>
+      </div>
+    </div>
+    {% endif %}
+  </section>
+</main>
+
+<aside>
+  <a href='/'><i class="fas fa-chart-line"></i>Dashboard</a>
+  <a href='#'><i class="far fa-clipboard"></i>Report</a>
+  <a href='#'><i class="far fa-user"></i>Account</a>
+</aside>
+{% endblock %}
